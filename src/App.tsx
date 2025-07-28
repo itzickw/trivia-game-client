@@ -1,22 +1,57 @@
 import React from 'react';
+import LoginPage from './LoginPage'; // ייבוא רכיב דף הכניסה
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'; // לייבוא תמיכה בעיצוב כהה ועוד
+
+// יצירת תמה כהה ל-MUI (זהה לקוד הקודם שלך)
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#FFC107',
+    },
+    secondary: {
+      main: '#607D8B',
+    },
+    background: {
+      default: '#121212',
+      paper: '#1E1E1E',
+    },
+    text: {
+      primary: '#E0E0E0',
+      secondary: '#B0B0B0',
+    },
+  },
+  typography: {
+    fontFamily: 'Arial, sans-serif',
+  },
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#FFC107',
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused': {
+            color: '#FFC107',
+          },
+        },
+      },
+    },
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <LoginPage />
+    </ThemeProvider>
   );
 }
 

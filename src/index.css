@@ -1,0 +1,55 @@
+/* src/index.css */
+
+/* איפוס בסיסי וגובה מלא */
+html,
+body,
+#root {
+  height: 100%;
+  /* וודא שהם תמיד ממלאים את כל הגובה הזמין */
+  margin: 0;
+  /* הסר מרווחים חיצוניים ברירת מחדל */
+  padding: 0;
+  /* הסר מרווחים פנימיים ברירת מחדל */
+  box-sizing: border-box;
+  /* וודא ש padding ו border כלולים ברוחב/גובה */
+}
+
+body {
+  /* אם יש צבע רקע כאן ב-Vite, וודא שהוא תואם לתמה שלך */
+  /* לדוגמה: background-color: #121212; */
+  /* בדרך כלל CssBaseline של MUI מטפל בזה, אבל לוודאות, אפשר להוסיף */
+}
+
+/* הגדרות ברירת מחדל של Vite עבור #root - נבטל/נשנה אותן */
+#root {
+  /* תשאיר את השורות הבאות ריקות או תמחק אותן אם אתה רוצה שהקונטיינר של MUI ינהל הכל */
+  /*
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  */
+  /* אנו רוצים שה-Container בתוך #root ינהל את המרכוז שלו, לכן #root צריך להיות כמה שיותר "נייטרלי" */
+  /*
+  display: flex; /* ייתכן שזה כבר קיים או שנדרש כדי שהילדים יתמרכזו */
+  /* justify-content: center; */
+  /* align-items: center; */
+  */
+}
+
+/* שאר ה-CSS של Vite */
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  /* אם זה קיים, שנה ל-#121212 אם אתה רוצה רקע אחיד כהה */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
