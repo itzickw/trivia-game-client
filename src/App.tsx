@@ -1,56 +1,78 @@
-import React from 'react';
-import LoginPage from './LoginPage'; // ייבוא רכיב דף הכניסה
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'; // לייבוא תמיכה בעיצוב כהה ועוד
+// src/App.tsx (No changes from previous App.tsx if you updated it already)
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { supabase } from './supabaseClient';
+import type { Session } from '@supabase/supabase-js';
 
-// יצירת תמה כהה ל-MUI (זהה לקוד הקודם שלך)
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#FFC107',
-    },
-    secondary: {
-      main: '#607D8B',
-    },
-    background: {
-      default: '#121212',
-      paper: '#1E1E1E',
-    },
-    text: {
-      primary: '#E0E0E0',
-      secondary: '#B0B0B0',
-    },
-  },
-  typography: {
-    fontFamily: 'Arial, sans-serif',
-  },
-  components: {
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#FFC107',
-          },
-        },
-      },
-    },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          '&.Mui-focused': {
-            color: '#FFC107',
-          },
-        },
-      },
-    },
-  },
-});
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import theme from './theme';
+
+import LoginPage from './components/auth/LoginPage';
+import RegisterPage from './components/auth/RegisterPage';
+import DashboardPage from './components/dashboard/DashboardPage';
+import TopicQuestionsPage from './components/topics-management/TopicQuestionsPage';
 
 function App() {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        setLoading(false);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error logging out:', error.message);
+      alert('שגיאה בהתנתקות: ' + error.message);
+    }
+  };
+
+  if (loading) {
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          Loading...
+        </div>
+      </ThemeProvider>
+    );
+  }
+
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <LoginPage />
+      <Router>
+        <Routes>
+          <Route path="/login" element={session ? <Navigate to="/dashboard" replace /> : <LoginPage />} />
+          <Route path="/register" element={session ? <Navigate to="/dashboard" replace /> : <RegisterPage />} />
+
+          <Route
+            path="/dashboard"
+            element={session ? <DashboardPage onLogout={handleLogout} /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/dashboard/topics/:topicId/questions"
+            element={session ? <TopicQuestionsPage /> : <Navigate to="/login" replace />}
+          />
+
+          <Route path="*" element={session ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 }
