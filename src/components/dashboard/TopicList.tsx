@@ -1,26 +1,29 @@
+// src/components/dashboard/TopicList.tsx
 import React from 'react';
 import {
-  Box,
-//   Typography,
   List,
   ListItem,
   ListItemText,
+  ListItemSecondaryAction,
   IconButton,
   CircularProgress,
   Alert,
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { type Topic } from '../../api/topics'; // ייבוא טיפוס בלבד
+import DeleteIcon from '@mui/icons-material/Delete';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'; // ייבוא של אייקון חדש
+
+import { type Topic } from '../../api/topics';
 
 interface TopicListProps {
   topics: Topic[];
-  userId: string | null; // ID של המשתמש המחובר לבדיקת בעלות
+  userId: string | null; // הוספה של מזהה המשתמש כדי לדעת אם הוא הבעלים
   loading: boolean;
   error: string | null;
-  onDeleteTopic: (topic: Topic) => void; // פונקציה לקריאה כשלוחצים על מחיקה
-  onEditTopic: (topic: Topic) => void; // פונקציה לקריאה כשלוחצים על עריכה (נממש בהמשך)
-  deletingTopic?: boolean; // חדש: להשבית את כפתור המחיקה בזמן שפעולה מתבצעת
+  onDeleteTopic: (topic: Topic) => void;
+  onEditTopic: (topic: Topic) => void;
+  onStartQuiz: (topic: Topic) => void; // קולבק חדש להתחלת החידון
+  deletingTopic: boolean;
 }
 
 const TopicList: React.FC<TopicListProps> = ({
@@ -30,48 +33,61 @@ const TopicList: React.FC<TopicListProps> = ({
   error,
   onDeleteTopic,
   onEditTopic,
-  deletingTopic = false, // ברירת מחדל false
+  onStartQuiz,
+  deletingTopic,
 }) => {
   if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-        <CircularProgress size={24} />
-      </Box>
-    );
+    return <CircularProgress />;
   }
 
   if (error) {
-    return <Alert severity="error" sx={{ mt: 4 }}>{error}</Alert>;
+    return <Alert severity="error">{error}</Alert>;
   }
 
   if (topics.length === 0) {
-    return <Alert severity="info" sx={{ mt: 4 }}>אין נושאים זמינים כרגע. התחל/י בהוספת אחד!</Alert>;
+    return <Alert severity="info">אין נושאי טריוויה זמינים.</Alert>;
   }
 
   return (
-    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+    <List>
       {topics.map((topic) => (
-        <ListItem
-          key={topic.id}
-          secondaryAction={
-            topic.owner_id === userId && (
-              <Box>
-                <IconButton edge="end" aria-label="edit" sx={{ mr: 1 }} onClick={() => onEditTopic(topic)}>
+        <ListItem key={topic.id} divider>
+          <ListItemText primary={topic.name} />
+          <ListItemSecondaryAction>
+            {/* בדיקה האם המשתמש הוא הבעלים של הנושא */}
+            {topic.owner_id === userId ? (
+              <>
+                {/* כפתור עריכה לבעלים */}
+                <IconButton
+                  edge="end"
+                  aria-label="edit"
+                  onClick={() => onEditTopic(topic)}
+                  sx={{ mr: 1 }}
+                >
                   <EditIcon />
                 </IconButton>
+                {/* כפתור מחיקה לבעלים */}
                 <IconButton
                   edge="end"
                   aria-label="delete"
                   onClick={() => onDeleteTopic(topic)}
-                  disabled={deletingTopic} // השבתה בזמן מחיקה
+                  disabled={deletingTopic}
                 >
                   <DeleteIcon />
                 </IconButton>
-              </Box>
-            )
-          }
-        >
-          <ListItemText primary={topic.name} />
+              </>
+            ) : (
+              // כפתור התחלת חידון למי שאינו הבעלים
+              <IconButton
+                edge="end"
+                aria-label="start quiz"
+                onClick={() => onStartQuiz(topic)}
+                sx={{ color: 'primary.main' }}
+              >
+                <PlayCircleOutlineIcon />
+              </IconButton>
+            )}
+          </ListItemSecondaryAction>
         </ListItem>
       ))}
     </List>

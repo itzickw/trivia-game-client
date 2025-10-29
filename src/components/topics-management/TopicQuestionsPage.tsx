@@ -33,6 +33,8 @@ import ConfirmationDialog from '../common/ConfirmationDialog';
 import AddQuestionDialog from './AddQuestionDialog';
 import EditQuestionDialog from './EditQuestionDialog';
 import { supabase } from '../../supabaseClient';
+import MenuBar from '../common/menuBar/MenuBar';
+import useAuth from '../../hooks/useAuth';
 
 
 interface TopicQuestionsPageProps {
@@ -40,6 +42,8 @@ interface TopicQuestionsPageProps {
 }
 
 const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
+  const user = useAuth().user;
+  const userName = user?.user_metadata?.full_name || user?.email || '';
   const { topicId } = useParams<{ topicId: string }>();
   const navigate = useNavigate();
 
@@ -268,6 +272,7 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
 
   return (
     <Container component="main" maxWidth="lg" sx={{ py: 4 }}>
+      <MenuBar userName={userName}/>
       <Paper elevation={3} sx={{ p: 4, borderRadius: 2, textAlign: 'center', width: '100%' }}>
         <Typography component="h1" variant="h4" sx={{ mb: 2, color: 'primary.main' }}>
           ניהול שאלות עבור נושא: {topic.name}

@@ -9,9 +9,8 @@ import {
   IconButton,
   CircularProgress,
   Alert,
-  Chip, // For displaying the color chips
+  // For displaying the color chips
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { type Level } from '../../api/levels';
 
@@ -29,8 +28,6 @@ const LevelList: React.FC<LevelListProps> = ({
   loading,
   error,
   onEditLevel,
-  onDeleteLevel,
-  deletingLevel = false,
 }) => {
   if (loading) {
     return (
@@ -69,15 +66,6 @@ const LevelList: React.FC<LevelListProps> = ({
               <IconButton edge="end" aria-label="edit" sx={{ mr: 1 }} onClick={() => onEditLevel(level)}>
                 <EditIcon />
               </IconButton>
-              {/* Optional: Add delete button for levels if needed */}
-              {/* <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={() => onDeleteLevel(level)}
-                disabled={deletingLevel}
-              >
-                <DeleteIcon />
-              </IconButton> */}
             </Box>
           }
         >
@@ -87,30 +75,33 @@ const LevelList: React.FC<LevelListProps> = ({
                 <Typography component="span" variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                   רמה {level.level_number}:
                 </Typography>
-                <Typography component="span" variant="body1">
+                {/* <Typography component="span" variant="body1">
                   {level.name}
-                </Typography>
+                </Typography> */}
                 {level.color && level.color.split(',').length > 0 && (
-                    <Box
-                        sx={{
-                            ml: 2,
-                            height: 24, // גובה הצ'יפ
-                            borderRadius: '12px', // פינות מעוגלות של צ'יפ
-                            minWidth: 50,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '0 8px',
-                            border: '1px solid #ccc',
-                            ...getGradientStyle(level.color), // הרקע יהיה גרדיאנט
-                            color: 'white', // צבע טקסט לבן לניגודיות
-                            fontWeight: 'bold',
-                            fontSize: '0.75rem',
-                        }}
-                    >
-                        {/* ניתן להציג כאן את הצבעים או פשוט להשאיר את זה כתיבת גרדיאנט ריקה */}
-                        {level.color.split(',').length > 1 ? 'Gradient' : level.color.split(',')[0]}
-                    </Box>
+                  <Box
+                    sx={{
+                      ml: 2,
+                      height: 24, // גובה הצ'יפ
+                      borderRadius: '12px', // פינות מעוגלות של צ'יפ
+                      minWidth: 50,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '0 8px',
+                      border: '1px solid #ccc',
+                      ...getGradientStyle(level.color), // הרקע יהיה גרדיאנט
+                      color: 'white', // צבע טקסט לבן לניגודיות
+                      fontWeight: 'bold',
+                      fontSize: '0.75rem',
+                    }}
+                  >
+                    {/* ניתן להציג כאן את הצבעים או פשוט להשאיר את זה כתיבת גרדיאנט ריקה */}
+                    <Typography component="span" variant="subtitle1" sx={{fontWeight: 'bold', color: 'text.dark' }}>
+                      {level.name}
+                    </Typography>
+                    {/* {level.color.split(',').length > 1 ? 'Gradient' : level.color.split(',')[0]} */}
+                  </Box>
                 )}
               </Box>
             }

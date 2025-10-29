@@ -1,4 +1,4 @@
-// src/App.tsx (No changes from previous App.tsx if you updated it already)
+// src/App.tsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
@@ -11,6 +11,7 @@ import LoginPage from './components/auth/LoginPage';
 import RegisterPage from './components/auth/RegisterPage';
 import DashboardPage from './components/dashboard/DashboardPage';
 import TopicQuestionsPage from './components/topics-management/TopicQuestionsPage';
+import QuizPage from './components/quiz/QuizPage'; // ייבוא של הקומפוננטה החדשה QuizPage
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -65,11 +66,17 @@ function App() {
             path="/dashboard"
             element={session ? <DashboardPage onLogout={handleLogout} /> : <Navigate to="/login" replace />}
           />
+          {/* ניתוב לעריכת שאלות של נושא - רק לבעלים */}
           <Route
             path="/dashboard/topics/:topicId/questions"
             element={session ? <TopicQuestionsPage /> : <Navigate to="/login" replace />}
           />
-
+          {/* ניתוב לכניסה לחידון של נושא - למי שאינו הבעלים */}
+          <Route
+            path="/dashboard/topics/:topicId/quiz"
+            element={session ? <QuizPage /> : <Navigate to="/login" replace />}
+          />
+          
           <Route path="*" element={session ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
         </Routes>
       </Router>
