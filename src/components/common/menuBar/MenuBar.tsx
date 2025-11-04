@@ -12,12 +12,12 @@ const MenuBar: React.FC<MenuBarProps> = ({ userName }) => {
   return (
     <Box
       sx={{
-        marginTop: 3,
+        marginTop: 2,
         position: 'telative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: '100%',
+        width: '95%',
         height: 64,
         px: 3,
         py: 1.5,

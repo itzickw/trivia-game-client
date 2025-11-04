@@ -2,8 +2,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import TopicList from './TopicList';
-import ConfirmationDialog from '../common/ConfirmationDialog';
-import { type Topic, deleteTopic, fetchAllTopics } from '../../api/topics';
+import ConfirmationDialog from '../../common/ConfirmationDialog';
+import { type Topic, deleteTopic, fetchAllTopics } from '../../../api/topics';
 import { useNavigate } from 'react-router-dom';
 import AddTopicButton from './AddTopicButton';
 

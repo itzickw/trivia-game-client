@@ -20,7 +20,7 @@ const darkTheme = createTheme({
       main: '#90A4AE', // Softer blue-gray
     },
     background: {
-      default: '#46c1b9ff', // Slightly lighter than pure black
+      default: '#531212ff', // Slightly lighter than pure black
       paper: '#2A2A2A',   // Used for dialogs, cards, etc.
       sidebar: '#242424', // Side panels, menus
       surface: '#2E2E2E', // General surface containers

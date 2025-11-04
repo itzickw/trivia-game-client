@@ -9,10 +9,10 @@ import {
   Alert,
 } from '@mui/material';
 
-import MenuBar from '../common/menuBar/MenuBar'; // ✅ new import
-import LevelSection from './LevelSection';
-import TopicSection from './TopicSection';
-import useAuth from '../../hooks/useAuth';
+import MenuBar from '../components/common/menuBar/MenuBar'; 
+import LevelSection from '../components/dashboard/levels/LevelSection';
+import TopicSection from '../components/dashboard/topics/TopicSection';
+import useAuth from '../hooks/useAuth';
 
 
 interface DashboardPageProps {

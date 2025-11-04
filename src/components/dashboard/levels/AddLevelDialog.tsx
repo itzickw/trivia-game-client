@@ -1,5 +1,5 @@
-// src/components/dashboard/EditLevelDialog.tsx
-import React, { useState, useEffect } from 'react';
+// src/components/dashboard/AddLevelDialog.tsx
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -11,58 +11,48 @@ import {
   Alert,
   Box,
   Chip,
-  Typography, // חדש: לייבוא Chip
+  Typography
 } from '@mui/material';
-import PaletteIcon from '@mui/icons-material/Palette'; // חדש: אייקון לבחירת צבע
+import PaletteIcon from '@mui/icons-material/Palette';
 
-import { type Level, type UpdateLevelDto } from '../../api/levels';
-import ColorPickerPage from '../common/ColorPickerPage'; // חדש: ייבוא בורר הצבעים
+import { type CreateLevelDto } from '../../../api/levels';
+import ColorPickerPage from '../../common/ColorPickerPage';
 
-interface EditLevelDialogProps {
+interface AddLevelDialogProps {
   open: boolean;
   onClose: () => void;
-  onSave: (levelId: string, updatedData: UpdateLevelDto) => Promise<void>;
+  onAddLevel: (levelData: CreateLevelDto) => Promise<void>;
   loading: boolean;
   error: string | null;
-  levelToEdit: Level | null; // The level object currently being edited
 }
 
-const EditLevelDialog: React.FC<EditLevelDialogProps> = ({
+const AddLevelDialog: React.FC<AddLevelDialogProps> = ({
   open,
   onClose,
-  onSave,
+  onAddLevel,
   loading,
   error,
-  levelToEdit,
 }) => {
   const [levelNumber, setLevelNumber] = useState<number | ''>('');
   const [levelName, setLevelName] = useState('');
-  const [selectedColors, setSelectedColors] = useState<string[]>([]); // *** שינוי: מערך של צבעים ***
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [localError, setLocalError] = useState<string | null>(null);
-  const [showColorPicker, setShowColorPicker] = useState(false); // חדש: סטייט לפתיחת בורר הצבעים
+  const [showColorPicker, setShowColorPicker] = useState(false);
 
-  // Populate form fields when levelToEdit changes
-  useEffect(() => {
-    if (levelToEdit) {
-      setLevelNumber(levelToEdit.level_number);
-      setLevelName(levelToEdit.name);
-      setSelectedColors(levelToEdit.color ? levelToEdit.color.split(',') : []);
-    } else {
-      // Reset fields if no level is being edited (e.g., dialog is closed)
+  // Reset form fields on dialog open/close
+  React.useEffect(() => {
+    if (!open) {
       setLevelNumber('');
       setLevelName('');
       setSelectedColors([]);
+      setLocalError(null);
     }
-  }, [levelToEdit]);
+  }, [open]);
 
-  const handleSaveClick = async () => {
+  const handleAddClick = async () => {
     setLocalError(null);
 
-    // Basic validation
-    if (!levelToEdit) {
-      setLocalError('No level selected for editing.');
-      return;
-    }
+    // Validation
     if (levelName.trim() === '') {
       setLocalError('שם הרמה לא יכול להיות ריק.');
       return;
@@ -72,24 +62,20 @@ const EditLevelDialog: React.FC<EditLevelDialogProps> = ({
       return;
     }
 
-    // *** שינוי: איחוד מערך הצבעים לסטרינג מופרד בפסיקים ***
-    const updatedData: UpdateLevelDto = {
+    // Join colors into a comma-separated string
+    const levelData: CreateLevelDto = {
       name: levelName.trim(),
       level_number: Number(levelNumber),
-      color: selectedColors.length > 0 ? selectedColors.join(',') : undefined, // שלח undefined אם אין צבעים
+      color: selectedColors.length > 0 ? selectedColors.join(',') : undefined,
     };
 
-    await onSave(levelToEdit.id, updatedData); // onClose will be called by parent if save is successful
-  };
-
-  const handleClose = () => {
-    setLocalError(null); // Clear local errors on close
-    onClose();
+    await onAddLevel(levelData);
+    // Parent will close dialog on success
   };
 
   const handleColorsSelected = (colors: string[]) => {
     setSelectedColors(colors);
-    setShowColorPicker(false); // סגור את בורר הצבעים לאחר הבחירה
+    setShowColorPicker(false);
   };
 
   const getGradientStyle = (colors: string[]) => {
@@ -102,13 +88,14 @@ const EditLevelDialog: React.FC<EditLevelDialogProps> = ({
 
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ערוך רמה: {levelToEdit?.name}</DialogTitle>
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle>הוסף רמה חדשה</DialogTitle>
         <DialogContent>
           {(error || localError) && <Alert severity="error" sx={{ mb: 2 }}>{error || localError}</Alert>}
           <TextField
+            autoFocus
             margin="dense"
-            id="levelName"
+            id="newLevelName"
             label="שם הרמה"
             type="text"
             fullWidth
@@ -120,7 +107,7 @@ const EditLevelDialog: React.FC<EditLevelDialogProps> = ({
           />
           <TextField
             margin="dense"
-            id="levelNumber"
+            id="newLevelNumber"
             label="מספר הרמה"
             type="number"
             fullWidth
@@ -152,7 +139,7 @@ const EditLevelDialog: React.FC<EditLevelDialogProps> = ({
                   alignItems: 'center',
                   flexWrap: 'wrap',
                   gap: 1,
-                  ...getGradientStyle(selectedColors), // תצוגת הגרדיאנט
+                  ...getGradientStyle(selectedColors),
                 }}
               >
                 {selectedColors.map((color, index) => (
@@ -160,12 +147,11 @@ const EditLevelDialog: React.FC<EditLevelDialogProps> = ({
                     key={index}
                     label={color}
                     sx={{ backgroundColor: color, color: 'white', fontWeight: 'bold' }}
-                    // ניתן להוסיף onDelete כדי להסיר צבע מכאן אם תרצה
                   />
                 ))}
               </Box>
             )}
-            {selectedColors.length === 0 && (
+             {selectedColors.length === 0 && (
               <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
                 לא נבחרו צבעים.
               </Typography>
@@ -173,14 +159,13 @@ const EditLevelDialog: React.FC<EditLevelDialogProps> = ({
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} disabled={loading}>ביטול</Button>
-          <Button onClick={handleSaveClick} disabled={loading}>
-            {loading ? <CircularProgress size={24} /> : 'שמור שינויים'}
+          <Button onClick={onClose} disabled={loading}>ביטול</Button>
+          <Button onClick={handleAddClick} disabled={loading}>
+            {loading ? <CircularProgress size={24} /> : 'הוסף'}
           </Button>
         </DialogActions>
       </Dialog>
 
-      {/* Color Picker Dialog */}
       <ColorPickerPage
         open={showColorPicker}
         onClose={() => setShowColorPicker(false)}
@@ -191,4 +176,4 @@ const EditLevelDialog: React.FC<EditLevelDialogProps> = ({
   );
 };
 
-export default EditLevelDialog;
+export default AddLevelDialog;

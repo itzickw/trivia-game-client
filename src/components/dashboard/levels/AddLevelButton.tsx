@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { createLevel, type CreateLevelDto, type Level } from '../../api/levels';
+import { createLevel, type CreateLevelDto, type Level } from '../../../api/levels';
 import AddLevelDialog from './AddLevelDialog';
 
 interface AddLevelButtonProps {
@@ -31,10 +30,9 @@ const AddLevelButton: React.FC<AddLevelButtonProps> = ({ onLevelAdded }) => {
 
   return (
     <>
-      <Button variant="contained" startIcon={<AddIcon />} onClick={() => setOpen(true)}>
-        הוסף רמה
-      </Button>
-
+        <Button variant="text" onClick={() => setOpen(true)}>
+          הוסף רמה
+        </Button>
       <AddLevelDialog
         open={open}
         onClose={() => setOpen(false)}

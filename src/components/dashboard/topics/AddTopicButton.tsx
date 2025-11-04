@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { createTopic, type Topic } from '../../api/topics';
+import { createTopic, type Topic } from '../../../api/topics';
 import AddTopicDialog from './AddTopicDialog';
 
 interface AddTopicButtonProps {
@@ -37,8 +36,10 @@ const AddTopicButton: React.FC<AddTopicButtonProps> = ({ userId, onTopicAdded })
 
   return (
     <>
-      <Button variant="contained" startIcon={<AddIcon />} onClick={() => setOpen(true)}>
-        הוסף נושא
+      <Button variant="text"  onClick={() => setOpen(true)}
+        sx={{ minWidth: '32px', padding: '8px' }}
+      >
+      הוסף נושא
       </Button>
 
       <AddTopicDialog

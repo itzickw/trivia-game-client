@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import {
   fetchQuizDataForUser,
   type QuizData,
-  type QuizQuestion,
   type LevelWithQuestions,
 } from '../../api/quiz';
 import { createUserProgress } from '../../api/userProgress';
@@ -12,8 +11,8 @@ import useAuth from '../../hooks/useAuth';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorMessage from '../ui/ErrorMessage';
 import QuestionDisplay from './QuestionDisplay';
-import LevelSelector from './LevelSelector';
 import MenuBar from '../common/menuBar/MenuBar';
+import LevelSelectorContainer from './levelSelector/LevelSelectorContainer';
 
 // Define the component's state to hold all quiz data, loading status, and errors
 interface QuizState {
@@ -28,6 +27,7 @@ const QuizPage: React.FC = () => {
   const { topicId } = useParams<{ topicId: string }>();
   const { user } = useAuth();
   const userName = user?.user_metadata?.full_name || user?.email || '';
+  // const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const [state, setState] = useState<QuizState>({
     quizData: null,
     selectedLevel: null,
@@ -67,24 +67,13 @@ const QuizPage: React.FC = () => {
     loadQuizData();
   }, [user, topicId]);
 
-  // Handler for when a user selects a new level
-  const handleLevelSelect = (levelNumber: string) => {
-    if (state.quizData) {
-      setState((prevState) => ({
-        ...prevState,
-        selectedLevel: prevState.quizData!.levels[levelNumber],
-        currentQuestionIndex: 0, // Reset to the first question of the new level
-      }));
-    }
-  };
-
   // Handler for when a user submits an answer
   const handleSubmitAnswer = async (questionId: string, isCorrect: boolean) => {
     if (!user?.id || !state.quizData) {
       // Should not happen if the component is in a valid state
       return;
     }
-    
+
     // If the answer is correct, update the progress on the server and locally
     if (isCorrect) {
       try {
@@ -123,7 +112,7 @@ const QuizPage: React.FC = () => {
             },
           };
         });
-        
+
       } catch (err) {
         console.error('Failed to submit user progress:', err);
         setState((prevState) => ({
@@ -158,13 +147,10 @@ const QuizPage: React.FC = () => {
 
   return (
     <div className="quiz-page-container">
+      <MenuBar userName={userName} />
       <h1>Quiz: {state.quizData.topic.name}</h1>
-      <MenuBar userName={userName}/>
-      <LevelSelector
-        levels={Object.values(state.quizData.levels)}
-        selectedLevel={state.selectedLevel.level_number}
-        maxUserLevel={state.quizData.maxUserLevel}
-        onLevelSelect={handleLevelSelect}
+      <LevelSelectorContainer
+        onLevelSelect={(levelNumber) => {selectedLevel =levelNumber}}
       />
 
       <div className="quiz-content">

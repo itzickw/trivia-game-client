@@ -13,7 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'; // ייבוא של אייקון חדש
 
-import { type Topic } from '../../api/topics';
+import { type Topic } from '../../../api/topics';
 
 interface TopicListProps {
   topics: Topic[];
@@ -49,7 +49,7 @@ const TopicList: React.FC<TopicListProps> = ({
   }
 
   return (
-    <List>
+    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
       {topics.map((topic) => (
         <ListItem key={topic.id} divider>
           <ListItemText primary={topic.name} />

@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import LevelList from './LevelList';
 import EditLevelDialog from './EditLevelDialog';
-import { type Level, updateLevel, type UpdateLevelDto, fetchAllLevels } from '../../api/levels';
+import { type Level, updateLevel, type UpdateLevelDto, fetchAllLevels } from '../../../api/levels';
 import AddLevelButton from './AddLevelButton';
 
 interface LevelSectionProps {
