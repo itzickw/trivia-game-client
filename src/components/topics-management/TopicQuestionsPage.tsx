@@ -78,52 +78,71 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
 
   // Get current user ID
   useEffect(() => {
+    let isMounted = true;
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
+      if (isMounted && user) {
         setCurrentUserId(user.id);
       }
     };
     fetchUser();
+    return () => { isMounted = false; }
   }, []);
 
   // Fetch topic details
   useEffect(() => {
+    let isMounted = true;
     const getTopicDetails = async () => {
       if (!topicId) {
-        setTopicError('Topic ID is missing.');
-        setLoadingTopic(false);
+        if (isMounted) {
+          setTopicError('Topic ID is missing.');
+          setLoadingTopic(false);
+        }
         return;
       }
       try {
         setLoadingTopic(true);
         const fetchedTopic = await fetchTopicById(topicId);
-        setTopic(fetchedTopic);
+        if (isMounted) {
+          setTopic(fetchedTopic);
+        }
       } catch (err: any) {
-        setTopicError('שגיאה בטעינת פרטי נושא: ' + err.message);
-        console.error('Error fetching topic:', err);
+        if (isMounted) {
+          setTopicError('שגיאה בטעינת פרטי נושא: ' + err.message);
+          console.error('Error fetching topic:', err);
+        }
       } finally {
-        setLoadingTopic(false);
+        if (isMounted)
+          setLoadingTopic(false);
       }
     };
     getTopicDetails();
+    return () => { isMounted = false; }
   }, [topicId]);
 
   // Fetch all levels
   useEffect(() => {
+    let isMounted = true;
     const getLevels = async () => {
       try {
         setLoadingLevels(true);
         const fetchedLevels = await fetchAllLevels();
-        setLevels(fetchedLevels.sort((a, b) => a.level_number - b.level_number));
+        if (isMounted)
+          setLevels(fetchedLevels.sort((a, b) => a.level_number - b.level_number));
       } catch (err: any) {
-        setLevelsError('שגיאה בטעינת רמות: ' + err.message);
-        console.error('Error fetching levels:', err);
+        if (isMounted) {
+          setLevelsError('שגיאה בטעינת רמות: ' + err.message);
+          console.error('Error fetching levels:', err);
+        }
       } finally {
-        setLoadingLevels(false);
+        if (isMounted)
+          setLoadingLevels(false);
       }
     };
     getLevels();
+    return () => {
+      isMounted = false;
+    }
   }, []);
 
   // Fetch questions based on selected topic and level using fetchQuizQuestions
@@ -167,9 +186,11 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
 
   // Trigger question loading when relevant dependencies change
   useEffect(() => {
+    let isMounted = true;
     if (topic && levels.length > 0) { // Ensure topic and levels are loaded before trying to fetch questions
       loadQuestions();
     }
+    return () => { isMounted = false; }
   }, [topic, selectedLevelId, levels, loadQuestions]);
 
 
