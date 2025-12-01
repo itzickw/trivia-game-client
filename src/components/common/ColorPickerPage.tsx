@@ -8,12 +8,9 @@ import {
   Grid,
   Box,
   Typography,
-  Checkbox,
-  FormControlLabel,
   Chip,
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import { cssColors } from '../../utils/colors'; // ייבוא רשימת הצבעים
 
 interface ColorPickerPageProps {

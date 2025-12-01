@@ -47,9 +47,7 @@ const EditQuestionDialog: React.FC<EditQuestionDialogProps> = ({
   loading,
   error,
   questionToEdit,
-  topic,
   levels,
-  ownerId,
 }) => {
   const [questionText, setQuestionText] = useState('');
   const [selectedLevelId, setSelectedLevelId] = useState<string>('');
@@ -156,9 +154,9 @@ const EditQuestionDialog: React.FC<EditQuestionDialogProps> = ({
       // When converting Set back to array, use the original (untrimmed) text from additionalAnswers
       // However, ensure only unique (case-insensitive) answers are picked.
       // We'll map from the original additionalAnswers but filter by our lowercase set to avoid duplicates.
-      const finalAdditionalAnswersForDto = additionalAnswers
-        .filter(ans => ans.text.trim() !== '' && uniqueAdditionalAnswersTextsLowercase.has(ans.text.trim().toLowerCase()))
-        .map(ans => ({ text: ans.text.trim() })); // Trim for sending to server
+      // const finalAdditionalAnswersForDto = additionalAnswers
+      //   .filter(ans => ans.text.trim() !== '' && uniqueAdditionalAnswersTextsLowercase.has(ans.text.trim().toLowerCase()))
+      //   .map(ans => ({ text: ans.text.trim() })); // Trim for sending to server
 
       // To ensure truly unique answers in the sent DTO, it's better to build from the Set of original texts
       // (if preserving case is important for the API). If API is case-insensitive, then previous approach is fine.

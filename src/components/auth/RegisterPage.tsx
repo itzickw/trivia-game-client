@@ -33,9 +33,9 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
- 
+
   const navigate = useNavigate();
-  
+
   const handleRegister = async () => {
     setError(null);
     setSuccess(null);
@@ -84,7 +84,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
     setError(null);
     setLoading(true);
     try {
-      const { data, error: authError } = await supabase.auth.signInWithOAuth({
+      const { error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: window.location.origin,
@@ -112,7 +112,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
         overflow: 'hidden',
       }}>
         {/* צד שמאל: טופס ההרשמה */}
-        <Grid size={{xs:12, sm:8, md:6}}> {/* שינוי: `size` אינו מאפיין תקף ב-MUI Grid, צריך להיות `xs, sm, md` */}
+        <Grid size={{ xs: 12, sm: 8, md: 6 }}> {/* שינוי: `size` אינו מאפיין תקף ב-MUI Grid, צריך להיות `xs, sm, md` */}
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -124,7 +124,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
             overflowY: 'auto',
           }}>
             <Typography component="h1" variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
-               Share Trivia - הירשם/י ל
+              Share Trivia - הירשם/י ל
             </Typography>
 
             {error && <Alert severity="error" sx={{ width: '100%', mb: 2 }}>{error}</Alert>}
@@ -202,16 +202,16 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
             </Button>
 
             <Link component="button" // Treat as a button for accessibility
-            variant="body2"
-            onClick={() => navigate('/login')} // NEW: Use navigate to go to /login
-            disabled={loading}> {/* *** שינוי: הפחתת מרווח עליון *** */}
+              variant="body2"
+              onClick={() => navigate('/login')} // NEW: Use navigate to go to /login
+              disabled={loading}> {/* *** שינוי: הפחתת מרווח עליון *** */}
               {"כבר יש לך חשבון? התחבר/י כאן!"}
             </Link>
           </Box>
         </Grid>
 
         {/* צד ימין: לוגו וסלוגן */}
-        <Grid size={{ xs: false, sm: 4, md: 6 }}           
+        <Grid size={{ xs: false, sm: 4, md: 6 }}
           sx={{
             backgroundImage: 'linear-gradient(to bottom right, #303030, #000000)',
             backgroundSize: 'cover',

@@ -27,7 +27,7 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
 import { fetchTopicById, type Topic } from '../../api/topics';
 import { fetchAllLevels, type Level } from '../../api/levels';
-import { fetchQuizQuestions, deleteQuestion, fetchQuestionsByTopicId, type Question, type CreateQuestionDto, type UpdateQuestionDto } from '../../api/questions';
+import { fetchQuizQuestions, deleteQuestion, fetchQuestionsByTopicId, type Question } from '../../api/questions';
 import ConfirmationDialog from '../common/ConfirmationDialog';
 import AddQuestionDialog from './AddQuestionDialog';
 import EditQuestionDialog from './EditQuestionDialog';
@@ -271,7 +271,7 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
 
   return (
     <Container component="main" maxWidth="lg" sx={{ py: 4 }}>
-      <MenuBar userName={userName}/>
+      <MenuBar userName={userName} />
       <Paper elevation={3} sx={{ p: 4, borderRadius: 2, textAlign: 'center', width: '100%' }}>
         <Typography component="h1" variant="h4" sx={{ mb: 2, color: 'primary.main' }}>
           ניהול שאלות עבור נושא: {topic.name}
@@ -333,7 +333,7 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
                 const levelColor = question.level ? question.level.color : undefined;
                 return (
                   // Changed size from 'size' to 'item xs={12} sm={6} md={4}' as per MUI Grid usage
-                  <Grid size={{xs:12, sm:6, md:4}} key={question.id}> 
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={question.id}>
                     <Card
                       sx={{
                         height: '100%',
@@ -360,7 +360,7 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
                         <Typography variant="body2" sx={{ mb: 1, fontWeight: 'bold' }}>
                           רמה: {question.level.name} (מספר {question.level.level_number})
                         </Typography>
-                        
+
                         {/* הוסף כאן את סוג השאלה */}
                         <Typography variant="body2" sx={{ mb: 1, fontWeight: 'bold' }}>
                           סוג שאלה: {question.question_type === 'multiple_choice' ? 'בחירה מרובה' : 'פתוחה'}
@@ -369,7 +369,7 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
                         <Typography variant="h6" component="div" sx={{ mb: 1 }}>
                           {question.text}
                         </Typography>
-                        
+
                         {/* הוסף כאן את התשובה הנכונה */}
                         <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, color: '#DCEDC8', textAlign: 'left' }}>
                           תשובה נכונה: <span style={{ fontWeight: 'bold' }}>{question.answer_text}</span>
@@ -407,9 +407,9 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
                         )}
                         {/* אם סוג השאלה פתוחה, אין צורך להציג "תשובות נוספות" */}
                         {question.question_type === 'open' && question.answers && question.answers.length > 0 && (
-                            <Alert severity="warning" sx={{mt:2}}>
-                                אזהרה: לשאלה פתוחה לא אמורות להיות "תשובות נוספות" במערך ה-answers.
-                            </Alert>
+                          <Alert severity="warning" sx={{ mt: 2 }}>
+                            אזהרה: לשאלה פתוחה לא אמורות להיות "תשובות נוספות" במערך ה-answers.
+                          </Alert>
                         )}
                       </CardContent>
                       <CardActions sx={{ justifyContent: 'flex-end', p: 2, pt: 0, zIndex: 2 }}>
