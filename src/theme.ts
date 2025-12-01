@@ -8,6 +8,14 @@ declare module '@mui/material/styles' {
     header?: string;
     footer?: string;
   }
+
+  interface TypeText {
+    dark: string;
+  }
+
+  interface Palette {
+    text: TypeText;
+  }
 }
 
 const darkTheme = createTheme({

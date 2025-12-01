@@ -20,7 +20,7 @@ const LevelGrid: React.FC<LevelGridProps> = ({
   return (
     <Grid container spacing={2} justifyContent="center">
       {levels.map((level, index) => (
-        <Grid item key={level.id}>
+        <Grid container key={level.id}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

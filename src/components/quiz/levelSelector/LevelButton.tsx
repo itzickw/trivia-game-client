@@ -19,7 +19,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   onClick,
   justUnlocked = false,
 }) => {
-  const [color1, color2] = level.color.split(',');
+  const [color1, color2] = level.color ? level.color.split(',') : ['#1976d2', '#42a5f5'];
   const levelStyle = isUnlocked
     ? {
         background: `linear-gradient(45deg, ${color1}, ${color2})`,
