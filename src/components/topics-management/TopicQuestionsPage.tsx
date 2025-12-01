@@ -67,11 +67,12 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
   const [showAddQuestionDialog, setShowAddQuestionDialog] = useState(false);
   const [addingQuestion, setAddingQuestion] = useState(false);
   const [addQuestionError, setAddQuestionError] = useState<string | null>(null);
-
+  setAddQuestionError(null);
   const [showEditQuestionDialog, setShowEditQuestionDialog] = useState(false);
   const [questionToEdit, setQuestionToEdit] = useState<Question | null>(null);
   const [editingQuestion, setEditingQuestion] = useState(false);
   const [editQuestionError, setEditQuestionError] = useState<string | null>(null);
+  setEditQuestionError(null);
 
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
@@ -226,7 +227,7 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
   };
 
   // Function to handle successful addition of a new question
-  const handleQuestionAdded = (newQuestion: Question) => {
+  const handleQuestionAdded = (_newQuestion: Question) => {
     // Re-fetch questions to ensure the list is up-to-date and correctly filtered
     loadQuestions();
     setShowAddQuestionDialog(false);
@@ -234,7 +235,7 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
   };
 
   // Function to handle successful update of an existing question
-  const handleQuestionUpdated = (updatedQuestion: Question) => {
+  const handleQuestionUpdated = (_updatedQuestion: Question) => {
     // Re-fetch questions to ensure the list is up-to-date and correctly filtered
     loadQuestions();
     setShowEditQuestionDialog(false);
