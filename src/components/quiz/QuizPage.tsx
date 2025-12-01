@@ -67,6 +67,14 @@ const QuizPage: React.FC = () => {
     loadQuizData();
   }, [user, topicId]);
 
+  const handleLevelSelect = (level: LevelWithQuestions) => {
+    setState((prevState) => ({
+      ...prevState,
+      selectedLevel: level,
+      currentQuestionIndex: 0, // איפוס מונה השאלה לשאלה הראשונה בשלב החדש
+    }));
+  };
+
   // Handler for when a user submits an answer
   const handleSubmitAnswer = async (questionId: string, isCorrect: boolean) => {
     if (!user?.id || !state.quizData) {
@@ -150,7 +158,7 @@ const QuizPage: React.FC = () => {
       <MenuBar userName={userName} />
       <h1>Quiz: {state.quizData.topic.name}</h1>
       <LevelSelectorContainer
-        onLevelSelect={(levelNumber) => {selectedLevel =levelNumber}}
+        onLevelSelect={(levelNumber) => { handleLevelSelect(state.quizData!.levels[levelNumber]); }}
       />
 
       <div className="quiz-content">

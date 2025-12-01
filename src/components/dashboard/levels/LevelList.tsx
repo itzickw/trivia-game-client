@@ -12,7 +12,7 @@ import {
   // For displaying the color chips
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { type Level } from '../../api/levels';
+import { type Level } from '../../../api/levels';
 
 interface LevelListProps {
   levels: Level[];
