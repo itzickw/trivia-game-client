@@ -20,7 +20,7 @@ export default function QuestionContainer({
 }: QuestionContainerProps) {
     const [shuffledAnswers, setShuffledAnswers] = useState<string[]>([]);
     const [userAnswer, setUserAnswer] = useState<string | null>(null);
-    const [isAnsweredCorrectly, setIsAnsweredCorrectly] = useState<boolean>(
+    const [_isAnsweredCorrectly, setIsAnsweredCorrectly] = useState<boolean>(
         question.answered
     );
     const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
