@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import type { Session } from '@supabase/supabase-js';
@@ -10,7 +10,6 @@ import LoginPage from './components/auth/LoginPage';
 import RegisterPage from './components/auth/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import TopicQuestionsPage from './components/topics-management/TopicQuestionsPage';
-import QuizPage from './pages/QuizPage';
 import QuizLoader from './pages/QuizLoader'; // קומפוננטה חדשה שניצור
 
 function App() {

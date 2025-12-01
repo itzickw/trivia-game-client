@@ -46,7 +46,7 @@ const LevelSelector: React.FC<LevelSelectorProps> = ({
             : `רמה זו נעולה. השלם את רמה ${level.level_number - 1} כדי לפתוח אותה.`;
 
           return (
-            <Grid item key={level.id}>
+            <Grid container key={level.id}>
               <Tooltip title={tooltipTitle}>
                 <Button
                   variant="contained"

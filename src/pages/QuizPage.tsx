@@ -1,6 +1,5 @@
 // src/pages/QuizPage.tsx
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import MenuBar from "../components/common/menuBar/MenuBar";
 import LevelSelectorContainer from "../components/quiz/levelSelector/LevelSelectorContainer";
@@ -8,7 +7,7 @@ import QuestionProgressBar from "../components/quiz/questionProgressBar/Question
 import { handleAnswerCorrect } from "../components/quiz/quizLogic";
 import type { QuizData } from "../api/quiz";
 import QuestionContainer from "../components/quiz/question/QuestionContainer";
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 
 interface QuizPageProps {
   initialQuizData: QuizData;
