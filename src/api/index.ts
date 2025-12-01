@@ -1,7 +1,7 @@
 // src/api/index.ts
 import { supabase } from '../supabaseClient'; // מייבאים את הקליינט של Supabase
 
-const API_BASE_URL = 'http://localhost:3000'; // ה-URL הבסיסי של השרת הלוקאלי שלך
+const API_BASE_URL = 'https://share-trivia-backend.onrender.com'; // ה-URL הבסיסי של השרת הלוקאלי שלך
 
 // פונקציה כללית לביצוע בקשות API
 async function apiRequest<T>(
