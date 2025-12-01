@@ -186,11 +186,11 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
 
   // Trigger question loading when relevant dependencies change
   useEffect(() => {
-    let isMounted = true;
+    let _isMounted = true;
     if (topic && levels.length > 0) { // Ensure topic and levels are loaded before trying to fetch questions
       loadQuestions();
     }
-    return () => { isMounted = false; }
+    return () => { _isMounted = false; }
   }, [topic, selectedLevelId, levels, loadQuestions]);
 
 
