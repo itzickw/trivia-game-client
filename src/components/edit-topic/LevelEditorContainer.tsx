@@ -2,17 +2,17 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { fetchAllLevels, type Level } from '../../api/levels'; // 👈 ודא שיש לך את הפונקציה הזו
-import { CircularProgress, Box, Alert, Typography } from '@mui/material';
+import { CircularProgress, Box, Alert } from '@mui/material';
 
 // נשתמש בקומפוננטת התצוגה הקיימת (LevelSelector) אבל נצטרך להתאים את ה-Props
 import LevelSelectorView from '../quiz/levelSelector/LevelSelectorView'; 
 
 // מאחר ש-LevelSelectorView מצפה לממשק ספציפי (LevelWithQuestions), 
-// נייצר ממשק דמה שיכיל את כל השדות הדרושים לתצוגה, אבל ללא לוגיקת שאלות/נעילה.
-interface LevelForEditor extends Level {
-    // השדות הללו אינם רלוונטיים לעריכה, אבל LevelSelectorView מצפה להם במקור.
-    // אם LevelSelectorView דורש את השדה 'questions', נוכל להשמיט את הייבוא שלו.
-}
+// // נייצר ממשק דמה שיכיל את כל השדות הדרושים לתצוגה, אבל ללא לוגיקת שאלות/נעילה.
+// interface LevelForEditor extends Level {
+//     // השדות הללו אינם רלוונטיים לעריכה, אבל LevelSelectorView מצפה להם במקור.
+//     // אם LevelSelectorView דורש את השדה 'questions', נוכל להשמיט את הייבוא שלו.
+// }
 
 interface Props {
     onLevelSelect: (levelNumber: number) => void;
