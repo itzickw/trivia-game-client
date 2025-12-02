@@ -18,15 +18,12 @@ const LevelSelector: React.FC<LevelSelectorProps> = ({
   maxUserLevel,
   onLevelSelect,
 }) => {
+  const isEditorMode = maxUserLevel > 500;
   return (
     <Box sx={{ mt: 2, mb: 2 }}>
-      {/* <Typography variant="h5" gutterBottom align="center">
-        בחר רמה
-      </Typography> */}
-
       <Grid container spacing={2} justifyContent="center">
         {levels.map((level) => {
-          const isUnlocked = level.level_number <= maxUserLevel;
+          const isUnlocked = isEditorMode || level.level_number <= maxUserLevel;
           const isActive = level.level_number === selectedLevel;
 
           // צבעי רקע מהרמה עצמה (לדוגמה "red,orange")

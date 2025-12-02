@@ -9,8 +9,9 @@ import theme from './theme';
 import LoginPage from './components/auth/LoginPage';
 import RegisterPage from './components/auth/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
-import TopicQuestionsPage from './components/topics-management/TopicQuestionsPage';
+// import TopicQuestionsPage from './components/topics-management/TopicQuestionsPage';
 import QuizLoader from './pages/QuizLoader'; // קומפוננטה חדשה שניצור
+import EditTopicPage from './components/edit-topic/EditTopicPage';
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -68,7 +69,7 @@ function App() {
 
           <Route
             path="/dashboard/topics/:topicId/questions"
-            element={session ? <TopicQuestionsPage /> : <Navigate to="/login" replace />}
+            element={session ? <EditTopicPage /> : <Navigate to="/login" replace />}
           />
 
           {/* כאן נשתמש ב־QuizLoader */}
