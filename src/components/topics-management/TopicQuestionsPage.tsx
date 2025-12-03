@@ -67,12 +67,10 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
   const [showAddQuestionDialog, setShowAddQuestionDialog] = useState(false);
   const [addingQuestion, setAddingQuestion] = useState(false);
   const [addQuestionError, setAddQuestionError] = useState<string | null>(null);
-  setAddQuestionError(null);
   const [showEditQuestionDialog, setShowEditQuestionDialog] = useState(false);
   const [questionToEdit, setQuestionToEdit] = useState<Question | null>(null);
   const [editingQuestion, setEditingQuestion] = useState(false);
   const [editQuestionError, setEditQuestionError] = useState<string | null>(null);
-  setEditQuestionError(null);
 
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
@@ -237,10 +235,12 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
   }, []);
 
   const handleAddQuestionClick = () => {
+    setAddQuestionError(null);
     setShowAddQuestionDialog(true);
   };
 
   const handleEditQuestionClick = (question: Question) => {
+    setEditQuestionError(null);
     setQuestionToEdit(question);
     setShowEditQuestionDialog(true);
   };
@@ -296,14 +296,6 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
         <Typography component="h1" variant="h4" sx={{ mb: 2, color: 'primary.main' }}>
           ניהול שאלות עבור נושא: {topic.name}
         </Typography>
-
-        <Button
-          variant="outlined"
-          onClick={() => navigate('/dashboard')}
-          sx={{ mb: 3 }}
-        >
-          חזור לדשבורד
-        </Button>
 
         <Box sx={{ mt: 4, width: '100%' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
@@ -405,16 +397,6 @@ const TopicQuestionsPage: React.FC<TopicQuestionsPageProps> = () => {
                                   <ListItemText
                                     primary={
                                       <Box sx={{ display: 'flex', alignItems: 'center', color: 'inherit' }}>
-                                        {/* הסימון V או X לתשובה נכונה/לא נכונה
-                                           Note: In 'answers' array for MC, we typically only store *incorrect* answers.
-                                           The correct answer is in `answer_text`.
-                                           So, remove the `answer.text === question.answer_text` check here
-                                           as it should *never* be true for an 'incorrect answers' list.
-                                           If it's true, it means your API is sending correct answers in `answers` array.
-                                           If `answers` can contain correct answers as well, we need to adjust
-                                           the logic of `AddQuestionDialog` and `EditQuestionDialog` to match.
-                                           For now, I'll assume `answers` only contains incorrect answers.
-                                        */}
                                         <RadioButtonUncheckedIcon sx={{ mr: 1, color: 'inherit' }} /> {/* Always unchecked for incorrect answers */}
                                         <Typography sx={{ color: 'inherit' }}>{answer.text}</Typography>
                                       </Box>
